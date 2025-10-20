@@ -1,0 +1,4 @@
+{
+  "excludeRegExp": ["node_modules", "coverage", "_archive"],
+  "fileExtensions": ["ts", "tsx"]
+}

@@ -1,0 +1,12 @@
+{
+  "ignores": [
+    "@types/*",
+    "eslint",
+    "eslint-*",
+    "prettier",
+    "ts-node",
+    "typescript",
+    "next",
+    "@next/*"
+  ]
+}

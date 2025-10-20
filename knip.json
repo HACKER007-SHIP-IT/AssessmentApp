@@ -1,0 +1,16 @@
+{
+  "$schema": "https://unpkg.com/knip/schema.json",
+  "ignore": [
+    "next.config.*",
+    "postcss.config.*",
+    "tailwind.config.*",
+    "scripts/**",
+    "public/**",
+    "coverage/**",
+    "docs/**",
+    "_archive/**",
+    "**/*.d.ts",
+    "supabase/migrations/**"
+  ],
+  "ignoreDependencies": ["next/dynamic", "react.lazy"]
+}
