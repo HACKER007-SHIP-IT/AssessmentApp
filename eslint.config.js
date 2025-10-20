@@ -1,5 +1,5 @@
 export default [
-  { ignores: ["node_modules", ".next", "dist", "coverage", "_archive"] },
+  { ignores: ["node_modules", ".next", "dist", "coverage", "_archive/**"] },
   {
     files: ["**/*.{ts,tsx,js}"],
     languageOptions: { ecmaVersion: 2022, sourceType: "module" },

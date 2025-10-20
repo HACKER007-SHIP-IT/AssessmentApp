@@ -20,7 +20,8 @@
     "audit:eslint": "next lint --max-warnings=0 || true",
     "audit:build": "next build",
     "audit:circles": "madge --circular --extensions ts,tsx app lib components --summary || true",
-    "verify": "npm run build && echo Build successful"
+    "verify": "npm run build && echo Build successful",
+    "smoke": "echo Testing critical routes... && curl -I http://localhost:3000/ 2>nul | findstr HTTP && curl -I http://localhost:3000/admin 2>nul | findstr HTTP && curl -I http://localhost:3000/join 2>nul | findstr HTTP && curl -I http://localhost:3000/pricing 2>nul | findstr HTTP && curl -I http://localhost:3000/signin 2>nul | findstr HTTP && echo All routes tested"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

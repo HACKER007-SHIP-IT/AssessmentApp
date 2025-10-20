@@ -382,27 +382,34 @@ Default admin account (set up in Supabase):
 
 For detailed setup guides, implementation notes, and troubleshooting:
 
-### Setup Guides
-- [Block 5 Setup Guide](docs/setup/BLOCK5_SETUP.md) - Questions, Timer, Scoring & Session Controls
-- [Stripe Integration Guide](docs/setup/STRIPE_SETUP_GUIDE.md) - Payment and subscription setup
+### Docs Map
 
-### Implementation Docs
-- [Trainer Console Implementation](docs/implementation/TRAINER_CONSOLE_IMPLEMENTATION.md) - Technical details of trainer features
+| Category | Document | Description |
+|----------|----------|-------------|
+| **Setup** | [Block 5 Setup](docs/setup/BLOCK5_SETUP.md) | Questions, Timer, Scoring & Session Controls |
+| **Setup** | [Stripe Integration](docs/setup/STRIPE_SETUP_GUIDE.md) | Payment and subscription configuration |
+| **Implementation** | [Trainer Console](docs/implementation/TRAINER_CONSOLE_IMPLEMENTATION.md) | Technical details of trainer features |
+| **Database** | [Migration Instructions](docs/MIGRATION_INSTRUCTIONS.md) | Database migration guide |
+| **Reports** | [Launch Readiness](docs/reports/LAUNCH_READY_REPORT.md) | Pre-launch checklist |
+| **Reports** | [Audit Report](docs/reports/AUDIT_REPORT.md) | Security and code quality audit |
+| **Troubleshooting** | [Onboarding Issues](docs/troubleshooting/TROUBLESHOOTING_ONBOARDING.md) | Common onboarding fixes |
+| **Reference** | [Quick Reference](docs/QUICK-REFERENCE.md) | Common commands and workflows |
+| **QA** | [QA Progress](docs/QA-PROGRESS-REPORT.md) | Testing and QA status |
+| **QA** | [Polish Summary](docs/POLISH-SUMMARY.md) | UI/UX refinements |
 
-### Database & Migrations
-- [Migration Instructions](docs/MIGRATION_INSTRUCTIONS.md) - Database migration guide
+### Quick Commands
 
-### Reports & Analysis
-- [Launch Readiness Report](docs/reports/LAUNCH_READY_REPORT.md) - Pre-launch checklist
-- [Audit Report](docs/reports/AUDIT_REPORT.md) - Security and code quality audit
+```bash
+# Development
+npm run dev          # Start development server
+npm run build        # Production build
+npm run typecheck    # TypeScript validation
+npm run lint         # ESLint validation
+npm run format       # Format code with Prettier
 
-### Troubleshooting
-- [Onboarding Troubleshooting](docs/troubleshooting/TROUBLESHOOTING_ONBOARDING.md) - Common onboarding issues and fixes
-
-### Additional Resources
-- [Quick Reference Guide](docs/QUICK-REFERENCE.md) - Common commands and workflows
-- [QA Progress Report](docs/QA-PROGRESS-REPORT.md) - Testing and QA status
-- [Polish Summary](docs/POLISH-SUMMARY.md) - UI/UX refinements
+# Testing
+npm run smoke        # Smoke test critical routes
+```
 
 ---
 
