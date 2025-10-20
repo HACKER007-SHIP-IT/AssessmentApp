@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -23,6 +23,9 @@ const STEPS = [
 
 export default function NewSittingPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const fromSetup = searchParams.get('from') === 'setup'
+
   const [currentStep, setCurrentStep] = useState(0)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState("")
@@ -95,8 +98,13 @@ export default function NewSittingPage() {
         sessionTime: sessionTime || undefined,
       })
 
-      // Redirect to admin sittings page
-      router.push(`/admin/sittings`)
+      // If coming from setup wizard, mark sitting as created and redirect back
+      if (fromSetup) {
+        localStorage.setItem("sittingCreated", "true")
+        router.push("/onboarding/setup")
+      } else {
+        router.push("/admin/sittings")
+      }
     } catch (err) {
       console.error("Failed to create sitting:", err)
       setError("Failed to create sitting. Please try again.")

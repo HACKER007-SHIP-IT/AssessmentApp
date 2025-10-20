@@ -3,7 +3,7 @@ import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Plus, ClipboardList, Calendar, Users } from "lucide-react"
+import { Plus, ClipboardList, Calendar, Users, BarChart3 } from "lucide-react"
 import { createClient } from "@/lib/supabase/server"
 import { createServiceClient } from "@/lib/supabase/service"
 import { getCurrentUserOrganization } from "@/lib/actions/organizations"
@@ -16,6 +16,7 @@ async function getOrganizationSittings(organizationId: string) {
     .select(`
       id,
       short_code,
+      token,
       sitting_type,
       session_date,
       session_time,
@@ -136,11 +137,19 @@ export default async function SittingsPage() {
                   </div>
                 </div>
 
-                <Button asChild variant="outline" size="sm">
-                  <Link href={`/trainer/${sitting.short_code}`}>
-                    View Details
-                  </Link>
-                </Button>
+                <div className="flex items-center gap-2">
+                  <Button asChild variant="outline" size="sm">
+                    <Link href={`/admin/sittings/${sitting.id}/results`}>
+                      <BarChart3 className="h-4 w-4 mr-2" />
+                      View Results
+                    </Link>
+                  </Button>
+                  <Button asChild variant="outline" size="sm">
+                    <Link href={`/trainer/${sitting.token}`}>
+                      View Details
+                    </Link>
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           ))}

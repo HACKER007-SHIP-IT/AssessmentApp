@@ -4,14 +4,19 @@ import { Button } from "@/components/ui/button"
 import { LogOut } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
+import { cn } from "@/lib/utils"
 
-export function SignOutButton() {
+interface SignOutButtonProps {
+  className?: string
+}
+
+export function SignOutButton({ className }: SignOutButtonProps = {}) {
   const router = useRouter()
 
   const handleSignOut = async () => {
     const supabase = createClient()
     await supabase.auth.signOut()
-    router.push("/admin/sign-in")
+    router.push("/signin")
     router.refresh()
   }
 
@@ -20,10 +25,11 @@ export function SignOutButton() {
       variant="outline"
       size="sm"
       onClick={handleSignOut}
-      className="flex items-center gap-2"
+      className={cn("flex items-center gap-2 rounded-xl", className)}
+      data-qa="sign-out-button"
     >
       <LogOut className="h-4 w-4" />
-      Sign Out
+      Sign out
     </Button>
   )
 }

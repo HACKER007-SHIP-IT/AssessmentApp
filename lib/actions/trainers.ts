@@ -5,14 +5,14 @@ import { createClient } from '@/lib/supabase/server'
 import { getCurrentUserOrganization } from './organizations'
 
 /**
- * Get all trainers for the current user's organization
+ * Get all trainers for the current user's organisation
  */
 export async function getOrganizationTrainers() {
   const supabase = createServiceClient()
 
   const orgData = await getCurrentUserOrganization()
   if (!orgData) {
-    throw new Error('No organization found')
+    throw new Error('No organisation found')
   }
 
   const { data, error } = await supabase
@@ -30,7 +30,7 @@ export async function getOrganizationTrainers() {
 }
 
 /**
- * Create a new trainer for the current user's organization
+ * Create a new trainer for the current user's organisation
  */
 export async function createTrainer(data: {
   name: string
@@ -40,7 +40,7 @@ export async function createTrainer(data: {
 
   const orgData = await getCurrentUserOrganization()
   if (!orgData) {
-    throw new Error('No organization found')
+    throw new Error('No organisation found')
   }
 
   const { data: trainer, error } = await supabase
@@ -57,7 +57,7 @@ export async function createTrainer(data: {
   if (error) {
     console.error('Error creating trainer:', error)
     if (error.code === '23505') {
-      throw new Error('A trainer with this email already exists in your organization')
+      throw new Error('A trainer with this email already exists in your organisation')
     }
     throw new Error('Failed to create trainer')
   }
@@ -80,10 +80,10 @@ export async function updateTrainer(
 
   const orgData = await getCurrentUserOrganization()
   if (!orgData) {
-    throw new Error('No organization found')
+    throw new Error('No organisation found')
   }
 
-  // Verify the trainer belongs to the user's organization
+  // Verify the trainer belongs to the user's organisation
   const { data: trainer } = await supabase
     .from('trainer_users')
     .select('organization_id')
@@ -91,7 +91,7 @@ export async function updateTrainer(
     .single()
 
   if (!trainer || trainer.organization_id !== orgData.organization.id) {
-    throw new Error('Trainer not found or does not belong to your organization')
+    throw new Error('Trainer not found or does not belong to your organisation')
   }
 
   const updateData: any = {}
@@ -107,7 +107,7 @@ export async function updateTrainer(
   if (error) {
     console.error('Error updating trainer:', error)
     if (error.code === '23505') {
-      throw new Error('A trainer with this email already exists in your organization')
+      throw new Error('A trainer with this email already exists in your organisation')
     }
     throw new Error('Failed to update trainer')
   }
@@ -123,10 +123,10 @@ export async function deleteTrainer(trainerId: string) {
 
   const orgData = await getCurrentUserOrganization()
   if (!orgData) {
-    throw new Error('No organization found')
+    throw new Error('No organisation found')
   }
 
-  // Verify the trainer belongs to the user's organization
+  // Verify the trainer belongs to the user's organisation
   const { data: trainer } = await supabase
     .from('trainer_users')
     .select('organization_id')
@@ -134,7 +134,7 @@ export async function deleteTrainer(trainerId: string) {
     .single()
 
   if (!trainer || trainer.organization_id !== orgData.organization.id) {
-    throw new Error('Trainer not found or does not belong to your organization')
+    throw new Error('Trainer not found or does not belong to your organisation')
   }
 
   // Soft delete by setting is_active to false
@@ -149,4 +149,61 @@ export async function deleteTrainer(trainerId: string) {
   }
 
   return { success: true }
+}
+
+/**
+ * Generate a magic link for a trainer
+ */
+export async function generateTrainerMagicLink(trainerId: string) {
+  const supabase = createServiceClient()
+
+  const orgData = await getCurrentUserOrganization()
+  if (!orgData) {
+    throw new Error('No organisation found')
+  }
+
+  // Verify the trainer belongs to the user's organisation
+  const { data: trainer } = await supabase
+    .from('trainer_users')
+    .select('organization_id, name, email')
+    .eq('id', trainerId)
+    .single()
+
+  if (!trainer || trainer.organization_id !== orgData.organization.id) {
+    throw new Error('Trainer not found or does not belong to your organisation')
+  }
+
+  // Generate a unique token
+  const token = `trainer_${crypto.randomUUID().replace(/-/g, '')}`
+
+  // Set expiry to 7 days from now
+  const expiresAt = new Date()
+  expiresAt.setDate(expiresAt.getDate() + 7)
+
+  // Create the invite token
+  const { data: inviteToken, error } = await supabase
+    .from('trainer_invite_tokens')
+    .insert({
+      trainer_id: trainerId,
+      token: token,
+      expires_at: expiresAt.toISOString()
+    })
+    .select()
+    .single()
+
+  if (error) {
+    console.error('Error creating invite token:', error)
+    throw new Error('Failed to generate magic link')
+  }
+
+  // Generate the magic link URL
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+  const magicLink = `${baseUrl}/trainer/invite/${token}`
+
+  return {
+    magicLink,
+    expiresAt: expiresAt.toISOString(),
+    trainerName: trainer.name,
+    trainerEmail: trainer.email
+  }
 }

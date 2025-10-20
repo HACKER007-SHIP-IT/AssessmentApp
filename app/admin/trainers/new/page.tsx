@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -12,6 +12,9 @@ import { createTrainer } from "@/lib/actions/trainers"
 
 export default function NewTrainerPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const fromSetup = searchParams.get('from') === 'setup'
+
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState("")
 
@@ -46,7 +49,13 @@ export default function NewTrainerPage() {
         email: email.trim(),
       })
 
-      router.push("/admin/trainers")
+      // If coming from setup wizard, mark trainer as added and redirect back
+      if (fromSetup) {
+        localStorage.setItem("trainerAdded", "true")
+        router.push("/onboarding/setup")
+      } else {
+        router.push("/admin/trainers")
+      }
       router.refresh()
     } catch (err: any) {
       console.error("Failed to create trainer:", err)
@@ -59,14 +68,14 @@ export default function NewTrainerPage() {
     <div className="max-w-2xl mx-auto space-y-6">
       <div>
         <Button variant="ghost" asChild className="mb-4">
-          <Link href="/admin/trainers">
+          <Link href={fromSetup ? "/onboarding/setup" : "/admin/trainers"}>
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Trainers
+            {fromSetup ? "Back to Setup" : "Back to Trainers"}
           </Link>
         </Button>
         <h1 className="text-3xl font-bold">Add New Trainer</h1>
         <p className="text-muted-foreground mt-1">
-          Add a trainer to your organization
+          Add a trainer to your organisation
         </p>
       </div>
 
@@ -122,7 +131,7 @@ export default function NewTrainerPage() {
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => router.push("/admin/trainers")}
+                onClick={() => router.push(fromSetup ? "/onboarding/setup" : "/admin/trainers")}
                 disabled={isSubmitting}
                 className="flex-1"
               >

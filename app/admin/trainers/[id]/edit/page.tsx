@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { ArrowLeft, Loader2, UserEdit } from "lucide-react"
+import { ArrowLeft, Loader2, UserPen } from "lucide-react"
 import { updateTrainer } from "@/lib/actions/trainers"
 
 export default function EditTrainerPage() {
@@ -76,7 +76,7 @@ export default function EditTrainerPage() {
       <Card className="rounded-2xl shadow-lg">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <UserEdit className="h-5 w-5 text-primary" />
+            <UserPen className="h-5 w-5 text-primary" />
             Trainer Details
           </CardTitle>
           <CardDescription>

@@ -139,7 +139,7 @@ BEGIN
   (pfa_paper2_id, 13, 'What is the purpose of CPR in children?', 'To cure illness', 'To maintain blood and oxygen flow to vital organs', 'To warm them up', 'To stop bleeding', 'B'),
   (pfa_paper2_id, 14, 'How should you manage a nosebleed in a child?', 'Tilt head back', 'Sit them up, lean forward, pinch soft part of nose', 'Lie them down', 'Put tissue up the nose', 'B'),
   (pfa_paper2_id, 15, 'What is the glass test used for?', 'Eye injuries', 'Checking for meningitis rash', 'Broken bones', 'Burns', 'B'),
-  (pfa_paper2_id, 16, 'When should you start CPR on an infant?', 'After 5 minutes', 'If unresponsive and not breathing normally', 'After calling 999', 'Never', 'B'),
+  (pfa_paper2_id, 16, 'When should you start CPR1 on an infant?', 'After 5 minutes', 'If unresponsive and not breathing normally', 'After calling 999', 'Never', 'B'),
   (pfa_paper2_id, 17, 'What is the best position for a child with difficulty breathing?', 'Lying flat', 'Sitting up in a comfortable position', 'Face down', 'Recovery position', 'B'),
   (pfa_paper2_id, 18, 'How should you treat a small burn on a child after cooling?', 'Pop blisters', 'Cover loosely with cling film or sterile dressing', 'Apply ice', 'Leave exposed', 'B');
 

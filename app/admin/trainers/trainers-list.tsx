@@ -5,12 +5,13 @@ import { useRouter } from "next/navigation"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Mail, Calendar, MoreVertical, Trash2, Edit } from "lucide-react"
+import { Mail, Calendar, MoreVertical, Trash2, Edit, Link2, Copy, Check } from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
 import {
   AlertDialog,
@@ -22,7 +23,14 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-import { deleteTrainer } from "@/lib/actions/trainers"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+import { deleteTrainer, generateTrainerMagicLink } from "@/lib/actions/trainers"
 
 interface Trainer {
   id: string
@@ -36,8 +44,12 @@ interface Trainer {
 export function TrainersList({ trainers }: { trainers: Trainer[] }) {
   const router = useRouter()
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+  const [magicLinkDialogOpen, setMagicLinkDialogOpen] = useState(false)
   const [selectedTrainer, setSelectedTrainer] = useState<Trainer | null>(null)
   const [isDeleting, setIsDeleting] = useState(false)
+  const [isGeneratingLink, setIsGeneratingLink] = useState(false)
+  const [magicLink, setMagicLink] = useState<string>("")
+  const [linkCopied, setLinkCopied] = useState(false)
 
   const handleDelete = async () => {
     if (!selectedTrainer) return
@@ -52,6 +64,34 @@ export function TrainersList({ trainers }: { trainers: Trainer[] }) {
       alert("Failed to delete trainer. Please try again.")
     } finally {
       setIsDeleting(false)
+    }
+  }
+
+  const handleGenerateMagicLink = async (trainer: Trainer) => {
+    setSelectedTrainer(trainer)
+    setIsGeneratingLink(true)
+    setMagicLinkDialogOpen(true)
+    setLinkCopied(false)
+
+    try {
+      const result = await generateTrainerMagicLink(trainer.id)
+      setMagicLink(result.magicLink)
+    } catch (error: any) {
+      console.error("Failed to generate magic link:", error)
+      alert(error.message || "Failed to generate magic link. Please try again.")
+      setMagicLinkDialogOpen(false)
+    } finally {
+      setIsGeneratingLink(false)
+    }
+  }
+
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(magicLink)
+      setLinkCopied(true)
+      setTimeout(() => setLinkCopied(false), 2000)
+    } catch (error) {
+      console.error("Failed to copy link:", error)
     }
   }
 
@@ -101,6 +141,13 @@ export function TrainersList({ trainers }: { trainers: Trainer[] }) {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuItem
+                    onClick={() => handleGenerateMagicLink(trainer)}
+                  >
+                    <Link2 className="h-4 w-4 mr-2" />
+                    Generate Magic Link
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
                     onClick={() => router.push(`/admin/trainers/${trainer.id}/edit`)}
                   >
                     <Edit className="h-4 w-4 mr-2" />
@@ -122,6 +169,59 @@ export function TrainersList({ trainers }: { trainers: Trainer[] }) {
           </Card>
         ))}
       </div>
+
+      <Dialog open={magicLinkDialogOpen} onOpenChange={setMagicLinkDialogOpen}>
+        <DialogContent className="sm:max-w-xl">
+          <DialogHeader>
+            <DialogTitle>Magic Link Generated</DialogTitle>
+            <DialogDescription>
+              Share this link with {selectedTrainer?.name} to give them access to their assigned sittings. This link expires in 7 days.
+            </DialogDescription>
+          </DialogHeader>
+
+          {isGeneratingLink ? (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              <div className="rounded-lg bg-muted p-4">
+                <p className="text-sm font-mono break-all">{magicLink}</p>
+              </div>
+
+              <div className="flex gap-2">
+                <Button
+                  onClick={handleCopyLink}
+                  className="flex-1"
+                  variant={linkCopied ? "secondary" : "default"}
+                >
+                  {linkCopied ? (
+                    <>
+                      <Check className="h-4 w-4 mr-2" />
+                      Copied!
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="h-4 w-4 mr-2" />
+                      Copy Link
+                    </>
+                  )}
+                </Button>
+                <Button
+                  onClick={() => {
+                    window.open(`mailto:${selectedTrainer?.email}?subject=Training Session Access&body=Hi ${selectedTrainer?.name},%0D%0A%0D%0APlease use this link to access your assigned training sessions:%0D%0A%0D%0A${magicLink}%0D%0A%0D%0AThis link expires in 7 days.`, '_blank')
+                  }}
+                  variant="outline"
+                  className="flex-1"
+                >
+                  <Mail className="h-4 w-4 mr-2" />
+                  Send Email
+                </Button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
 
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <AlertDialogContent>

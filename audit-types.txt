@@ -1,0 +1,4 @@
+
+> focus-assessments@0.1.0 audit:types
+> tsc --noEmit
+

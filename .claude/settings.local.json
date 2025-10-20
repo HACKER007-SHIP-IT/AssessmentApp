@@ -1,8 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(tree /F /A)",
-      "Bash(npm install @radix-ui/react-dropdown-menu @radix-ui/react-alert-dialog class-variance-authority)"
+      "Bash(git push origin feature/coderabbit-workflow-infrastructure)",
+      "Bash(git tag pre-cleanup-2025-10-20)",
+      "Bash(git push origin pre-cleanup-2025-10-20)",
+      "Bash(npm install -D knip depcheck ts-unused-exports madge)",
+      "Bash(npm install -D prettier@^3.0.0)"
     ],
     "deny": [],
     "ask": []

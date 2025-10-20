@@ -1,0 +1,6 @@
+
+> focus-assessments@0.1.0 typecheck
+> tsc --noEmit
+
+_archive/2025-10-20/components/trainer/SyncStatus.tsx(5,31): error TS2307: Cannot find module '@/lib/offline-queue' or its corresponding type declarations.
+_archive/2025-10-20/lib/offline-queue.ts(3,30): error TS2307: Cannot find module 'uuid' or its corresponding type declarations.

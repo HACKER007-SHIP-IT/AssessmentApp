@@ -23,7 +23,7 @@ export default function OrganizationSetupPage() {
     e.preventDefault()
 
     if (!name.trim()) {
-      setError("Organization name is required")
+      setError("Organisation name is required")
       return
     }
 
@@ -42,8 +42,8 @@ export default function OrganizationSetupPage() {
       router.push("/admin")
       router.refresh()
     } catch (err) {
-      console.error("Failed to create organization:", err)
-      setError("Failed to create organization. Please try again.")
+      console.error("Failed to create organisation:", err)
+      setError("Failed to create organisation. Please try again.")
       setIsSubmitting(false)
     }
   }
@@ -54,16 +54,16 @@ export default function OrganizationSetupPage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Building2 className="h-6 w-6 text-primary" />
-            Set Up Your Organization
+            Set Up Your Organisation
           </CardTitle>
           <CardDescription>
-            Welcome! Let's set up your training provider organization to get started.
+            Welcome! Let's set up your training provider organisation to get started.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="name">Organization Name *</Label>
+              <Label htmlFor="name">Organisation Name *</Label>
               <Input
                 id="name"
                 type="text"
@@ -126,10 +126,10 @@ export default function OrganizationSetupPage() {
               {isSubmitting ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                  Creating Organization...
+                  Creating Organisation...
                 </>
               ) : (
-                'Create Organization'
+                'Create Organisation'
               )}
             </Button>
           </form>

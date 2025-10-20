@@ -378,6 +378,32 @@ Default admin account (set up in Supabase):
 - Timer auto-submits when expired
 - Trainers can manage sitting lifecycle (Start, Extend, Lock, End)
 
+## Documentation
+
+For detailed setup guides, implementation notes, and troubleshooting:
+
+### Setup Guides
+- [Block 5 Setup Guide](docs/setup/BLOCK5_SETUP.md) - Questions, Timer, Scoring & Session Controls
+- [Stripe Integration Guide](docs/setup/STRIPE_SETUP_GUIDE.md) - Payment and subscription setup
+
+### Implementation Docs
+- [Trainer Console Implementation](docs/implementation/TRAINER_CONSOLE_IMPLEMENTATION.md) - Technical details of trainer features
+
+### Database & Migrations
+- [Migration Instructions](docs/MIGRATION_INSTRUCTIONS.md) - Database migration guide
+
+### Reports & Analysis
+- [Launch Readiness Report](docs/reports/LAUNCH_READY_REPORT.md) - Pre-launch checklist
+- [Audit Report](docs/reports/AUDIT_REPORT.md) - Security and code quality audit
+
+### Troubleshooting
+- [Onboarding Troubleshooting](docs/troubleshooting/TROUBLESHOOTING_ONBOARDING.md) - Common onboarding issues and fixes
+
+### Additional Resources
+- [Quick Reference Guide](docs/QUICK-REFERENCE.md) - Common commands and workflows
+- [QA Progress Report](docs/QA-PROGRESS-REPORT.md) - Testing and QA status
+- [Polish Summary](docs/POLISH-SUMMARY.md) - UI/UX refinements
+
 ---
 
 Built with Next.js 14 and Supabase

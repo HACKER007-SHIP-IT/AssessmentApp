@@ -68,8 +68,9 @@ export async function getAttempt(attemptId: string) {
             name
           )
         ),
-        trainer:trainers(
-          name
+        assigned_trainer:trainer_users(
+          name,
+          email
         )
       )
     `)

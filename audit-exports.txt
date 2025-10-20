@@ -1,0 +1,97 @@
+
+> focus-assessments@0.1.0 audit:exports
+> ts-unused-exports tsconfig.json
+
+92 modules with unused exports
+C:\Users\Mark Kershaw\Assessment App\middleware.ts: middleware, config
+C:\Users\Mark Kershaw\Assessment App\tailwind.config.ts: default
+C:\Users\Mark Kershaw\Assessment App\app\admin\sign-out\route.ts: POST
+C:\Users\Mark Kershaw\Assessment App\app\api\auth\resend\route.ts: POST
+C:\Users\Mark Kershaw\Assessment App\app\api\auth\status\route.ts: GET
+C:\Users\Mark Kershaw\Assessment App\app\api\debug\onboarding\route.ts: GET
+C:\Users\Mark Kershaw\Assessment App\app\api\stripe\checkout\route.ts: POST
+C:\Users\Mark Kershaw\Assessment App\app\api\stripe\portal\route.ts: POST
+C:\Users\Mark Kershaw\Assessment App\app\api\stripe\webhook\route.ts: POST
+C:\Users\Mark Kershaw\Assessment App\app\auth\confirm\route.ts: GET
+C:\Users\Mark Kershaw\Assessment App\hooks\use-toast.ts: reducer, toast
+C:\Users\Mark Kershaw\Assessment App\lib\offline-queue.ts: QueuedAction, getQueuedActions, queueAction, removeQueuedAction, clearQueue, processQueue
+C:\Users\Mark Kershaw\Assessment App\lib\stripe.ts: formatAmount, isSubscriptionActive, needsSubscriptionAttention
+C:\Users\Mark Kershaw\Assessment App\lib\utils.ts: randomBase32
+C:\Users\Mark Kershaw\Assessment App\lib\actions\attempts.ts: CreateAttemptData, submitAttempt
+C:\Users\Mark Kershaw\Assessment App\lib\actions\auth.ts: refreshSession, signOutUser
+C:\Users\Mark Kershaw\Assessment App\lib\actions\course-results.ts: getStudentCourseResult, canIssueCertificate
+C:\Users\Mark Kershaw\Assessment App\lib\actions\enrolments.ts: WrittenStatus, PracticalStatus, Enrolment
+C:\Users\Mark Kershaw\Assessment App\lib\actions\organizations.ts: updateOrganization
+C:\Users\Mark Kershaw\Assessment App\lib\actions\practicals.ts: PracticalAssessment, PracticalScenario, PracticalAttempt, PracticalSkillResult, PracticalScenarioResult, getPracticalSittingResults, getPracticalSittingStudents
+C:\Users\Mark Kershaw\Assessment App\lib\actions\questions.ts: Question, QuestionForStudent, getQuestionsByPaperId
+C:\Users\Mark Kershaw\Assessment App\lib\actions\sittings.ts: CreateSittingData, SittingResult, getAttemptsBySittingId, startSitting, extendSitting
+C:\Users\Mark Kershaw\Assessment App\lib\actions\students.ts: EnrollStudentData, getEnrolledStudents, startWrittenAssessment, getCombinedStudentResults
+C:\Users\Mark Kershaw\Assessment App\lib\actions\subscriptions.ts: hasActiveSubscription
+C:\Users\Mark Kershaw\Assessment App\lib\hooks\useTrainerRealtime.ts: broadcastTimerUpdate, broadcastSittingUpdate
+C:\Users\Mark Kershaw\Assessment App\lib\nav\config.ts: noHeaderRoutes
+C:\Users\Mark Kershaw\Assessment App\lib\validation\profile.ts: brandColorSchema, organizationDeleteSchema, OrganizationDeleteInput, logoUploadSchema, normalizePhone
+C:\Users\Mark Kershaw\Assessment App\app\page.tsx: metadata, default
+C:\Users\Mark Kershaw\Assessment App\app\admin\billing\page.tsx: default
+C:\Users\Mark Kershaw\Assessment App\app\admin\setup\page.tsx: default
+C:\Users\Mark Kershaw\Assessment App\app\admin\sign-in\page.tsx: default
+C:\Users\Mark Kershaw\Assessment App\app\admin\sign-up\page.tsx: default
+C:\Users\Mark Kershaw\Assessment App\app\admin\sittings\new\page.tsx: default
+C:\Users\Mark Kershaw\Assessment App\app\admin\trainers\[id]\edit\page.tsx: default
+C:\Users\Mark Kershaw\Assessment App\app\admin\trainers\new\page.tsx: default
+C:\Users\Mark Kershaw\Assessment App\app\attempt\demo\page.tsx: default
+C:\Users\Mark Kershaw\Assessment App\app\join\page.tsx: default
+C:\Users\Mark Kershaw\Assessment App\app\join\confirm\page.tsx: default
+C:\Users\Mark Kershaw\Assessment App\app\legal\privacy\page.tsx: metadata, default
+C:\Users\Mark Kershaw\Assessment App\app\legal\terms\page.tsx: metadata, default
+C:\Users\Mark Kershaw\Assessment App\app\onboarding\page.tsx: default
+C:\Users\Mark Kershaw\Assessment App\app\onboarding\plan-selection\page.tsx: default
+C:\Users\Mark Kershaw\Assessment App\app\onboarding\setup\page.tsx: default
+C:\Users\Mark Kershaw\Assessment App\app\pricing\page.tsx: default
+C:\Users\Mark Kershaw\Assessment App\app\signin\page.tsx: default
+C:\Users\Mark Kershaw\Assessment App\app\signup\page.tsx: default
+C:\Users\Mark Kershaw\Assessment App\app\trainer\[token]\practical\[studentId]\page.tsx: default
+C:\Users\Mark Kershaw\Assessment App\app\trainer\[token]\results\page.tsx: default
+C:\Users\Mark Kershaw\Assessment App\app\trainer\[token]\results\[attemptId]\page.tsx: default
+C:\Users\Mark Kershaw\Assessment App\app\trainer\dashboard\page.tsx: default
+C:\Users\Mark Kershaw\Assessment App\app\trainer\invite\[token]\page.tsx: default
+C:\Users\Mark Kershaw\Assessment App\app\trainer\sign-in\page.tsx: default
+C:\Users\Mark Kershaw\Assessment App\app\trial-expired\page.tsx: default
+C:\Users\Mark Kershaw\Assessment App\app\verify-email\page.tsx: default
+C:\Users\Mark Kershaw\Assessment App\components\admin\OnboardingChecklist.tsx: OnboardingChecklist
+C:\Users\Mark Kershaw\Assessment App\components\marketing\FAQ.tsx: FAQ
+C:\Users\Mark Kershaw\Assessment App\components\marketing\FeaturesGrid.tsx: FeaturesGrid
+C:\Users\Mark Kershaw\Assessment App\components\marketing\LandingFooter.tsx: LandingFooter
+C:\Users\Mark Kershaw\Assessment App\components\marketing\LandingHero.tsx: LandingHero
+C:\Users\Mark Kershaw\Assessment App\components\marketing\LandingNav.tsx: LandingNav
+C:\Users\Mark Kershaw\Assessment App\components\marketing\PricingSection.tsx: PricingSection
+C:\Users\Mark Kershaw\Assessment App\components\marketing\Testimonials.tsx: Testimonials
+C:\Users\Mark Kershaw\Assessment App\components\marketing\TrustBadges.tsx: TrustBadges
+C:\Users\Mark Kershaw\Assessment App\components\practical\SkillChecklistItem.tsx: SkillChecklistItem
+C:\Users\Mark Kershaw\Assessment App\components\trainer\SyncStatus.tsx: SyncStatus
+C:\Users\Mark Kershaw\Assessment App\components\ui\EmptyState.tsx: EmptyState
+C:\Users\Mark Kershaw\Assessment App\components\ui\ErrorState.tsx: ErrorState
+C:\Users\Mark Kershaw\Assessment App\components\ui\SkeletonLoader.tsx: Skeleton, SkeletonCard, SkeletonTable, SkeletonKPI, SkeletonChart
+C:\Users\Mark Kershaw\Assessment App\components\ui\alert-dialog.tsx: AlertDialogPortal, AlertDialogOverlay
+C:\Users\Mark Kershaw\Assessment App\components\ui\alert.tsx: AlertTitle
+C:\Users\Mark Kershaw\Assessment App\components\ui\badge.tsx: BadgeProps, badgeVariants
+C:\Users\Mark Kershaw\Assessment App\components\ui\button.tsx: ButtonProps
+C:\Users\Mark Kershaw\Assessment App\components\ui\card.tsx: CardFooter
+C:\Users\Mark Kershaw\Assessment App\components\ui\dialog.tsx: DialogPortal, DialogOverlay, DialogClose, DialogTrigger
+C:\Users\Mark Kershaw\Assessment App\components\ui\dropdown-menu.tsx: DropdownMenuCheckboxItem, DropdownMenuRadioItem, DropdownMenuLabel, DropdownMenuShortcut, DropdownMenuGroup, DropdownMenuPortal, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuRadioGroup
+C:\Users\Mark Kershaw\Assessment App\components\ui\input.tsx: InputProps
+C:\Users\Mark Kershaw\Assessment App\components\ui\select.tsx: SelectGroup, SelectLabel, SelectSeparator, SelectScrollUpButton, SelectScrollDownButton
+C:\Users\Mark Kershaw\Assessment App\components\ui\sheet.tsx: SheetPortal, SheetOverlay, SheetClose, SheetFooter, SheetDescription
+C:\Users\Mark Kershaw\Assessment App\components\ui\textarea.tsx: TextareaProps
+C:\Users\Mark Kershaw\Assessment App\components\ui\toast.tsx: ToastAction
+C:\Users\Mark Kershaw\Assessment App\.next\types\app\layout.ts: PageProps, LayoutProps
+C:\Users\Mark Kershaw\Assessment App\.next\types\app\admin\layout.ts: PageProps, LayoutProps
+C:\Users\Mark Kershaw\Assessment App\.next\types\app\admin\page.ts: PageProps, LayoutProps
+C:\Users\Mark Kershaw\Assessment App\.next\types\app\admin\profile\page.ts: PageProps, LayoutProps
+C:\Users\Mark Kershaw\Assessment App\.next\types\app\admin\sittings\page.ts: PageProps, LayoutProps
+C:\Users\Mark Kershaw\Assessment App\.next\types\app\admin\sittings\[id]\results\page.ts: PageProps, LayoutProps
+C:\Users\Mark Kershaw\Assessment App\.next\types\app\admin\trainers\page.ts: PageProps, LayoutProps
+C:\Users\Mark Kershaw\Assessment App\.next\types\app\attempt\[id]\page.ts: PageProps, LayoutProps
+C:\Users\Mark Kershaw\Assessment App\.next\types\app\join\enrolled\page.ts: PageProps, LayoutProps
+C:\Users\Mark Kershaw\Assessment App\.next\types\app\trainer\[token]\layout.ts: PageProps, LayoutProps
+C:\Users\Mark Kershaw\Assessment App\.next\types\app\trainer\[token]\page.ts: PageProps, LayoutProps
+C:\Users\Mark Kershaw\Assessment App\.next\types\app\trainer\[token]\practical\page.ts: PageProps, LayoutProps

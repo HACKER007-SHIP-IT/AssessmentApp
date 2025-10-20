@@ -259,6 +259,21 @@ export async function calculateAndSubmitScore(attemptId: string) {
     throw new Error('Failed to update attempt with score')
   }
 
+  // Update the enrolment status to 'submitted'
+  const { data: attemptData } = await supabase
+    .from('attempts')
+    .select('sitting_id, student_id')
+    .eq('id', attemptId)
+    .single()
+
+  if (attemptData) {
+    await supabase
+      .from('enrolments')
+      .update({ written_status: 'submitted' })
+      .eq('sitting_id', attemptData.sitting_id)
+      .eq('student_id', attemptData.student_id)
+  }
+
   return {
     score: correctCount,
     totalQuestions,

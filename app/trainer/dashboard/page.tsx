@@ -40,6 +40,7 @@ async function getTrainerSittings(trainerId: string) {
     .select(`
       id,
       short_code,
+      token,
       sitting_type,
       session_date,
       session_time,
@@ -215,7 +216,7 @@ export default async function TrainerDashboardPage() {
                       </div>
                     </div>
                     <Button asChild variant="outline" size="sm">
-                      <Link href={`/trainer/${sitting.short_code}`}>
+                      <Link href={`/trainer/${sitting.token}`}>
                         View Details
                       </Link>
                     </Button>

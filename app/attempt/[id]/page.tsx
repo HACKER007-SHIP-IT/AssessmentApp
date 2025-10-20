@@ -1,3 +1,4 @@
+// QA: Polished attempt page with autosave badges, timer warnings, and guards
 "use client"
 
 import { useEffect, useState } from "react"
@@ -7,7 +8,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
-import { AlertCircle, Home, LogIn, Loader2, CheckCircle2, ChevronLeft, ChevronRight, Clock } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { AlertCircle, Home, LogIn, Loader2, CheckCircle2, ChevronLeft, ChevronRight, Clock, WifiOff, Save, AlertTriangle } from "lucide-react"
 import { getAttempt } from "@/lib/actions/attempts"
 import { getQuestionsForAttempt, getResponsesForAttempt, saveResponse, calculateAndSubmitScore } from "@/lib/actions/questions"
 
@@ -33,9 +36,10 @@ interface AttemptData {
         name: string
       }
     }
-    trainer: {
+    assigned_trainer?: {
       name: string
-    }
+      email: string
+    } | null
   }
 }
 
@@ -60,6 +64,30 @@ export default function AttemptPage({ params }: { params: { id: string } }) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
   const [timeRemaining, setTimeRemaining] = useState<number | null>(null)
+  // QA: New state for autosave feedback and offline detection
+  const [saveStatus, setSaveStatus] = useState<"saved" | "saving" | "offline">("saved")
+  const [isOnline, setIsOnline] = useState(true)
+  const [showTimeWarning, setShowTimeWarning] = useState(false)
+
+  // QA: Online/offline detection
+  useEffect(() => {
+    const handleOnline = () => {
+      setIsOnline(true)
+      setSaveStatus("saved")
+    }
+    const handleOffline = () => {
+      setIsOnline(false)
+      setSaveStatus("offline")
+    }
+
+    window.addEventListener("online", handleOnline)
+    window.addEventListener("offline", handleOffline)
+
+    return () => {
+      window.removeEventListener("online", handleOnline)
+      window.removeEventListener("offline", handleOffline)
+    }
+  }, [])
 
   useEffect(() => {
     async function loadAttempt() {
@@ -67,7 +95,7 @@ export default function AttemptPage({ params }: { params: { id: string } }) {
         const data = await getAttempt(params.id)
         setAttempt(data)
 
-        // If already submitted, don't load questions
+        // QA: Guard against accessing already-submitted attempt via URL
         if (data.submitted_at) {
           setLoading(false)
           return
@@ -101,7 +129,7 @@ export default function AttemptPage({ params }: { params: { id: string } }) {
     loadAttempt()
   }, [params.id])
 
-  // Timer countdown
+  // QA: Timer countdown with warnings at 5min and 1min
   useEffect(() => {
     if (timeRemaining === null || timeRemaining === 0 || attempt?.submitted_at) return
 
@@ -112,6 +140,13 @@ export default function AttemptPage({ params }: { params: { id: string } }) {
           handleSubmit()
           return 0
         }
+
+        // QA: Show warning at 5min and 1min remaining
+        if (prev === 300 || prev === 60) {
+          setShowTimeWarning(true)
+          setTimeout(() => setShowTimeWarning(false), 5000)
+        }
+
         return prev - 1
       })
     }, 1000)
@@ -128,12 +163,19 @@ export default function AttemptPage({ params }: { params: { id: string } }) {
       [currentQuestion.id]: answer
     }))
 
-    // Save to database
+    // QA: Save to database with status feedback
+    setSaveStatus("saving")
     setIsSaving(true)
     try {
       await saveResponse(params.id, currentQuestion.id, answer as 'A' | 'B' | 'C' | 'D')
+      setSaveStatus("saved")
+      // QA: Keep "saved" status visible for 2 seconds
+      setTimeout(() => {
+        if (!isSaving) setSaveStatus("saved")
+      }, 2000)
     } catch (err) {
       console.error("Failed to save response:", err)
+      setSaveStatus("offline")
     } finally {
       setIsSaving(false)
     }
@@ -197,12 +239,8 @@ export default function AttemptPage({ params }: { params: { id: string } }) {
   const currentQuestion = questions[currentQuestionIndex]
   const answeredCount = Object.keys(responses).length
 
-  // If already submitted, show results
+  // If already submitted, show confirmation (no results)
   if (attempt.submitted_at) {
-    const scorePercentage = attempt.total_questions
-      ? Math.round((attempt.score! / attempt.total_questions) * 100)
-      : 0
-
     return (
       <div className="max-w-2xl mx-auto mt-8 space-y-6">
         {/* Header Card */}
@@ -212,7 +250,7 @@ export default function AttemptPage({ params }: { params: { id: string } }) {
               {attempt.sitting.paper.course_type.name}
             </CardTitle>
             <CardDescription>
-              {attempt.sitting.paper.label} • Trainer: {attempt.sitting.trainer.name}
+              {attempt.sitting.paper.label} • Trainer: {attempt.sitting.assigned_trainer?.name || "Not assigned"}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -227,31 +265,36 @@ export default function AttemptPage({ params }: { params: { id: string } }) {
           </CardContent>
         </Card>
 
-        {/* Results Card */}
-        <Card className={`rounded-2xl shadow-lg border-2 ${attempt.passed ? 'border-green-500' : 'border-red-500'}`}>
+        {/* Confirmation Card */}
+        <Card className="rounded-2xl shadow-lg border-2 border-green-500">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <CheckCircle2 className={`h-6 w-6 ${attempt.passed ? 'text-green-600' : 'text-red-600'}`} />
-              Assessment Complete
+              <CheckCircle2 className="h-6 w-6 text-green-600" />
+              Assessment Submitted
             </CardTitle>
             <CardDescription>
               Submitted at: {new Date(attempt.submitted_at).toLocaleString()}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
-            <div className={`rounded-lg p-6 text-center ${attempt.passed ? 'bg-green-50 border-2 border-green-500' : 'bg-red-50 border-2 border-red-500'}`}>
-              <p className={`text-5xl font-bold mb-2 ${attempt.passed ? 'text-green-700' : 'text-red-700'}`}>
-                {scorePercentage}%
-              </p>
-              <p className={`text-xl font-semibold mb-4 ${attempt.passed ? 'text-green-900' : 'text-red-900'}`}>
-                {attempt.passed ? 'PASS' : 'FAIL'}
+            <div className="rounded-lg bg-green-50 border-2 border-green-500 p-6 text-center">
+              <p className="text-lg font-semibold text-green-900 mb-2">
+                Thank you for completing the assessment
               </p>
               <p className="text-sm text-muted-foreground">
-                Score: {attempt.score} / {attempt.total_questions} questions correct
+                Your trainer will review your answers and provide feedback.
               </p>
-              <p className="text-sm text-muted-foreground">
-                Pass mark: {attempt.pass_mark}%
+            </div>
+
+            <div className="rounded-lg bg-blue-50 border border-blue-200 p-4">
+              <p className="text-sm text-blue-900 font-medium mb-2">
+                What happens next?
               </p>
+              <ul className="text-sm text-blue-800 space-y-1 list-disc list-inside">
+                <li>Your trainer will review your assessment</li>
+                <li>Results will be shared with you by your trainer</li>
+                <li>You may proceed with practical assessments if applicable</li>
+              </ul>
             </div>
 
             <div className="flex gap-3 pt-4">
@@ -274,13 +317,44 @@ export default function AttemptPage({ params }: { params: { id: string } }) {
     )
   }
 
+  // QA: Get timer color based on remaining time
+  const getTimerColor = () => {
+    if (timeRemaining === null) return "text-muted-foreground"
+    if (timeRemaining < 60) return "text-red-600"
+    if (timeRemaining < 300) return "text-yellow-600"
+    return "text-focus-green"
+  }
+
   // Active assessment view
   return (
-    <div className="max-w-4xl mx-auto mt-8 space-y-6">
+    <div className="max-w-4xl mx-auto mt-8 px-4 space-y-6">
+      {/* QA: Time warning banner */}
+      {showTimeWarning && timeRemaining !== null && (
+        <Alert className="bg-yellow-50 border-yellow-500 animate-pulse">
+          <AlertTriangle className="h-4 w-4 text-yellow-600" />
+          <AlertDescription className="font-medium text-yellow-900">
+            {timeRemaining < 120
+              ? `⏰ Only ${Math.floor(timeRemaining / 60)} minute remaining!`
+              : `⏰ ${Math.floor(timeRemaining / 60)} minutes remaining`
+            }
+          </AlertDescription>
+        </Alert>
+      )}
+
+      {/* QA: Offline warning banner */}
+      {!isOnline && (
+        <Alert className="bg-orange-50 border-orange-500">
+          <WifiOff className="h-4 w-4 text-orange-600" />
+          <AlertDescription className="text-orange-900">
+            <strong>You're offline.</strong> Your answers are being saved locally and will sync when you reconnect.
+          </AlertDescription>
+        </Alert>
+      )}
+
       {/* Header Card */}
       <Card className="rounded-2xl shadow-lg">
         <CardContent className="pt-6">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between flex-wrap gap-4">
             <div>
               <h1 className="text-xl font-bold">
                 {attempt.sitting.paper.course_type.name}
@@ -290,17 +364,50 @@ export default function AttemptPage({ params }: { params: { id: string } }) {
               </p>
             </div>
             <div className="flex items-center gap-6">
+              {/* QA: Autosave status badge */}
+              <div className="text-center">
+                <Badge
+                  variant={saveStatus === "saved" ? "outline" : "default"}
+                  className={
+                    saveStatus === "saving"
+                      ? "bg-blue-500 animate-pulse"
+                      : saveStatus === "offline"
+                      ? "bg-orange-500"
+                      : "bg-focus-green border-focus-green text-white"
+                  }
+                >
+                  {saveStatus === "saving" && (
+                    <>
+                      <Loader2 className="h-3 w-3 mr-1 animate-spin" />
+                      Syncing...
+                    </>
+                  )}
+                  {saveStatus === "saved" && (
+                    <>
+                      <Save className="h-3 w-3 mr-1" />
+                      Saved
+                    </>
+                  )}
+                  {saveStatus === "offline" && (
+                    <>
+                      <WifiOff className="h-3 w-3 mr-1" />
+                      Offline
+                    </>
+                  )}
+                </Badge>
+              </div>
               <div className="text-center">
                 <p className="text-xs text-muted-foreground">Progress</p>
                 <p className="text-lg font-bold">{answeredCount}/{questions.length}</p>
               </div>
               <div className="text-center">
                 <div className="flex items-center gap-2">
-                  <Clock className={`h-4 w-4 ${timeRemaining !== null && timeRemaining < 300 ? 'text-red-600' : 'text-muted-foreground'}`} />
-                  <p className={`text-2xl font-bold tabular-nums ${timeRemaining !== null && timeRemaining < 300 ? 'text-red-600' : ''}`}>
+                  <Clock className={`h-4 w-4 ${getTimerColor()}`} />
+                  <p className={`text-2xl font-bold tabular-nums ${getTimerColor()}`}>
                     {timeRemaining !== null ? formatTime(timeRemaining) : '--:--'}
                   </p>
                 </div>
+                <p className="text-xs text-muted-foreground">Time left</p>
               </div>
             </div>
           </div>

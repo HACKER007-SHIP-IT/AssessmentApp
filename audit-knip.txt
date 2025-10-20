@@ -1,0 +1,111 @@
+
+> focus-assessments@0.1.0 audit:knip
+> knip --no-progress
+
+[93m[4mUnused files[24m[39m (15)
+lib/offline-queue.ts                         
+components/admin/OnboardingChecklist.tsx     
+components/marketing/FAQ.tsx                 
+components/marketing/FeaturesGrid.tsx        
+components/marketing/LandingFooter.tsx       
+components/marketing/LandingHero.tsx         
+components/marketing/LandingNav.tsx          
+components/marketing/PricingSection.tsx      
+components/marketing/Testimonials.tsx        
+components/marketing/TrustBadges.tsx         
+components/practical/SkillChecklistItem.tsx  
+components/trainer/SyncStatus.tsx            
+components/ui/EmptyState.tsx                 
+components/ui/ErrorState.tsx                 
+components/ui/SkeletonLoader.tsx             
+[93m[4mUnused dependencies[24m[39m (2)
+@stripe/stripe-js  package.json:37:6
+uuid               package.json:53:6
+[93m[4mUnused devDependencies[24m[39m (3)
+@types/uuid         package.json:60:6
+eslint              package.json:63:6
+eslint-config-next  package.json:64:6
+[93m[4mUnused exports[24m[39m (59)
+CardFooter                             components/ui/card.tsx:79:27          
+badgeVariants                          components/ui/badge.tsx:36:16         
+updateOrganization           function  lib/actions/organizations.ts:228:23   
+AlertTitle                             components/ui/alert.tsx:59:16         
+hasActiveSubscription        function  lib/actions/subscriptions.ts:107:23   
+submitAttempt                function  lib/actions/attempts.ts:84:23         
+getQuestionsByPaperId        function  lib/actions/questions.ts:31:23        
+getAttemptsBySittingId       function  lib/actions/sittings.ts:212:23        
+startSitting                 function  lib/actions/sittings.ts:241:23        
+extendSitting                function  lib/actions/sittings.ts:263:23        
+getEnrolledStudents          function  lib/actions/students.ts:54:23         
+startWrittenAssessment       function  lib/actions/students.ts:91:23         
+getCombinedStudentResults    function  lib/actions/students.ts:108:23        
+broadcastTimerUpdate         function  lib/hooks/useTrainerRealtime.ts:103:23
+broadcastSittingUpdate       function  lib/hooks/useTrainerRealtime.ts:116:23
+SelectGroup                            components/ui/select.tsx:150:10       
+SelectLabel                            components/ui/select.tsx:154:17       
+SelectSeparator                        components/ui/select.tsx:156:14       
+SelectScrollUpButton                   components/ui/select.tsx:157:19       
+SelectScrollDownButton                 components/ui/select.tsx:158:24       
+formatAmount                 function  lib/stripe.ts:23:17                   
+isSubscriptionActive         function  lib/stripe.ts:30:17                   
+needsSubscriptionAttention   function  lib/stripe.ts:37:17                   
+getPracticalSittingResults   function  lib/actions/practicals.ts:356:23      
+getPracticalSittingStudents  function  lib/actions/practicals.ts:420:23      
+getStudentCourseResult       function  lib/actions/course-results.ts:39:23   
+canIssueCertificate          function  lib/actions/course-results.ts:163:23  
+ToastAction                            components/ui/toast.tsx:127:14        
+reducer                                hooks/use-toast.ts:77:14              
+toast                                  hooks/use-toast.ts:194:19             
+randomBase32                 function  lib/utils.ts:26:17                    
+noHeaderRoutes                         lib/nav/config.ts:95:14               
+brandColorSchema                       lib/validation/profile.ts:48:14       
+organizationDeleteSchema               lib/validation/profile.ts:91:14       
+logoUploadSchema                       lib/validation/profile.ts:102:14      
+normalizePhone               function  lib/validation/profile.ts:134:17      
+refreshSession               function  lib/actions/auth.ts:114:23            
+signOutUser                  function  lib/actions/auth.ts:145:23            
+SheetPortal                            components/ui/sheet.tsx:130:9         
+SheetOverlay                           components/ui/sheet.tsx:131:15        
+SheetClose                             components/ui/sheet.tsx:133:16        
+SheetFooter                            components/ui/sheet.tsx:136:15        
+SheetDescription                       components/ui/sheet.tsx:138:14        
+DialogPortal                           components/ui/dialog.tsx:112:10       
+DialogOverlay                          components/ui/dialog.tsx:113:16       
+DialogClose                            components/ui/dialog.tsx:114:17       
+DialogTrigger                          components/ui/dialog.tsx:115:15       
+AlertDialogPortal                      components/ui/alert-dialog.tsx:130:15 
+AlertDialogOverlay                     components/ui/alert-dialog.tsx:131:21 
+DropdownMenuCheckboxItem               components/ui/dropdown-menu.tsx:188:20
+DropdownMenuRadioItem                  components/ui/dropdown-menu.tsx:189:28
+DropdownMenuLabel                      components/ui/dropdown-menu.tsx:190:25
+DropdownMenuShortcut                   components/ui/dropdown-menu.tsx:192:25
+DropdownMenuGroup                      components/ui/dropdown-menu.tsx:193:24
+DropdownMenuPortal                     components/ui/dropdown-menu.tsx:194:21
+DropdownMenuSub                        components/ui/dropdown-menu.tsx:195:22
+DropdownMenuSubContent                 components/ui/dropdown-menu.tsx:196:19
+DropdownMenuSubTrigger                 components/ui/dropdown-menu.tsx:197:26
+DropdownMenuRadioGroup                 components/ui/dropdown-menu.tsx:198:26
+[93m[4mUnused exported types[24m[39m (20)
+ButtonProps              interface  components/ui/button.tsx:36:18 
+BadgeProps               interface  components/ui/badge.tsx:26:18  
+InputProps               interface  components/ui/input.tsx:5:18   
+CreateAttemptData        interface  lib/actions/attempts.ts:6:18   
+Question                 interface  lib/actions/questions.ts:5:18  
+QuestionForStudent       interface  lib/actions/questions.ts:17:18 
+CreateSittingData        interface  lib/actions/sittings.ts:9:18   
+SittingResult            interface  lib/actions/sittings.ts:20:18  
+EnrollStudentData        type       lib/actions/students.ts:7:13   
+WrittenStatus            type       lib/actions/enrolments.ts:11:13
+PracticalStatus          type       lib/actions/enrolments.ts:12:13
+Enrolment                type       lib/actions/enrolments.ts:14:13
+TextareaProps            interface  components/ui/textarea.tsx:5:18
+PracticalAssessment      type       lib/actions/practicals.ts:12:13
+PracticalScenario        type       lib/actions/practicals.ts:22:13
+PracticalSkill           type       lib/actions/practicals.ts:33:13
+PracticalAttempt         type       lib/actions/practicals.ts:45:13
+PracticalSkillResult     type       lib/actions/practicals.ts:58:13
+PracticalScenarioResult  type       lib/actions/practicals.ts:67:13
+OrganizationDeleteInput  type       lib/validation/profile.ts:96:13
+[33m[4mConfiguration hints[24m (2)[39m
+next/dynamic    knip.json  [90mRemove from [97mignoreDependencies[90m[39m
+react.lazy      knip.json  [90mRemove from [97mignoreDependencies[90m[39m

@@ -9,7 +9,8 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 import { UserCheck, ArrowLeft, Loader2 } from "lucide-react"
 import { getSittingByShortCode } from "@/lib/actions/sittings"
-import { createAttempt } from "@/lib/actions/attempts"
+import { enrollStudent as enrollStudentOld } from "@/lib/actions/students"
+import { enrollStudent as createEnrolment } from "@/lib/actions/enrolments"
 
 export default function JoinConfirmPage() {
   const router = useRouter()
@@ -28,9 +29,10 @@ export default function JoinConfirmPage() {
       try {
         const sitting = await getSittingByShortCode(shortCode)
 
+        // QA: Friendly error messages with clear next steps
         // Check if sitting is closed
         if (sitting.status === 'closed') {
-          setError("This assessment has ended and is no longer accepting students")
+          setError("This assessment has ended and is no longer accepting students. Please check with your trainer if you need to join a different session.")
           setIsLoadingSitting(false)
           return
         }
@@ -38,7 +40,7 @@ export default function JoinConfirmPage() {
         // Check if joins are locked
         const settings = sitting.settings || {}
         if (settings.joinsLocked) {
-          setError("This assessment is no longer accepting new students")
+          setError("The trainer has locked this assessment. Please speak to your trainer if you believe you should have access.")
           setIsLoadingSitting(false)
           return
         }
@@ -46,7 +48,8 @@ export default function JoinConfirmPage() {
         setSittingId(sitting.id)
       } catch (err) {
         console.error("Failed to load sitting:", err)
-        setError("Invalid or expired short code")
+        // QA: More helpful error message with troubleshooting steps
+        setError("We couldn't find an assessment with that code. Please check the code on your trainer's screen and try again. Remember, you can enter it with or without the course prefix (e.g., 'AB3D' or 'FAW-AB3D').")
       } finally {
         setIsLoadingSitting(false)
       }
@@ -55,22 +58,30 @@ export default function JoinConfirmPage() {
     loadSitting()
   }, [shortCode])
 
-  const handleStart = async () => {
+  const handleEnroll = async () => {
     if (!studentName.trim() || !agreedToRules || !sittingId) return
 
     setIsSubmitting(true)
     setError("")
 
     try {
-      const { attemptId } = await createAttempt({
+      // First create the student record
+      const { studentId } = await enrollStudentOld({
         sittingId,
         studentName: studentName.trim(),
       })
 
-      router.push(`/attempt/${attemptId}`)
+      // Then create the enrolment record
+      await createEnrolment({
+        sittingId,
+        studentId,
+      })
+
+      // Redirect to thank you page
+      router.push(`/join/enrolled?sc=${shortCode}&name=${encodeURIComponent(studentName.trim())}`)
     } catch (err) {
-      console.error("Failed to create attempt:", err)
-      setError("Failed to join assessment. Please try again.")
+      console.error("Failed to enroll student:", err)
+      setError("Failed to enroll. Please try again.")
       setIsSubmitting(false)
     }
   }
@@ -81,7 +92,7 @@ export default function JoinConfirmPage() {
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && studentName.trim() && agreedToRules) {
-      handleStart()
+      handleEnroll()
     }
   }
 
@@ -137,6 +148,14 @@ export default function JoinConfirmPage() {
             </ul>
           </div>
 
+          {/* QA: Privacy notice for GDPR compliance */}
+          <div className="rounded-lg bg-blue-50 border border-blue-200 p-3">
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              🔒 <strong>Privacy:</strong> Your name and assessment results will be stored securely and shared only with your trainer and organisation. We comply with UK GDPR regulations. Data is stored in the UK.
+            </p>
+          </div>
+
+          {/* QA: Simplified checkbox label for better readability */}
           <div className="flex items-start space-x-3 p-4 bg-muted rounded-lg">
             <Checkbox
               id="agree"
@@ -147,8 +166,7 @@ export default function JoinConfirmPage() {
               htmlFor="agree"
               className="text-sm leading-relaxed cursor-pointer"
             >
-              I have read and agree to follow the assessment rules and understand that
-              violations may result in disqualification
+              I agree to follow the assessment rules
             </Label>
           </div>
 
@@ -169,17 +187,17 @@ export default function JoinConfirmPage() {
               Back
             </Button>
             <Button
-              onClick={handleStart}
+              onClick={handleEnroll}
               disabled={!studentName.trim() || !agreedToRules || isSubmitting || !sittingId}
               className="flex-1 h-12 text-lg"
             >
               {isSubmitting ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                  Joining...
+                  Enrolling...
                 </>
               ) : (
-                'Start Assessment'
+                'Enroll'
               )}
             </Button>
           </div>

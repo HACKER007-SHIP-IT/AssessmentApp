@@ -1,0 +1,76 @@
+
+> focus-assessments@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.18
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (118kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/39) ...
+   Generating static pages (9/39) 
+   Generating static pages (19/39) 
+   Generating static pages (29/39) 
+ ✓ Generating static pages (39/39)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                 Size     First Load JS
+┌ ƒ /                                       2.98 kB         104 kB
+├ ƒ /_not-found                             880 B          88.2 kB
+├ ƒ /admin                                  99.8 kB         209 kB
+├ ƒ /admin/billing                          4.88 kB         106 kB
+├ ƒ /admin/profile                          44.4 kB         178 kB
+├ ƒ /admin/setup                            4.45 kB          99 kB
+├ ƒ /admin/sign-in                          3.57 kB         153 kB
+├ ƒ /admin/sign-out                         0 B                0 B
+├ ƒ /admin/sign-up                          4.85 kB         155 kB
+├ ƒ /admin/sittings                         192 B          94.4 kB
+├ ƒ /admin/sittings/[id]/results            6.6 kB          156 kB
+├ ƒ /admin/sittings/new                     5.91 kB         133 kB
+├ ƒ /admin/trainers                         2.54 kB         138 kB
+├ ƒ /admin/trainers/[id]/edit               4.3 kB          106 kB
+├ ƒ /admin/trainers/new                     4.45 kB         106 kB
+├ ƒ /api/auth/resend                        0 B                0 B
+├ ƒ /api/auth/status                        0 B                0 B
+├ ƒ /api/debug/onboarding                   0 B                0 B
+├ ƒ /api/stripe/checkout                    0 B                0 B
+├ ƒ /api/stripe/portal                      0 B                0 B
+├ ƒ /api/stripe/webhook                     0 B                0 B
+├ ƒ /attempt/[id]                           5.92 kB         115 kB
+├ ƒ /attempt/demo                           3.42 kB         105 kB
+├ ƒ /auth/confirm                           0 B                0 B
+├ ƒ /join                                   3.58 kB        98.2 kB
+├ ƒ /join/confirm                           6.08 kB         104 kB
+├ ƒ /join/enrolled                          3.42 kB         146 kB
+├ ƒ /legal/privacy                          2.62 kB         104 kB
+├ ƒ /legal/terms                            2.62 kB         104 kB
+├ ƒ /onboarding                             5.61 kB         100 kB
+├ ƒ /onboarding/plan-selection              4.76 kB        99.3 kB
+├ ƒ /onboarding/setup                       4.64 kB         106 kB
+├ ƒ /pricing                                192 B          94.4 kB
+├ ƒ /signin                                 4.56 kB         154 kB
+├ ƒ /signup                                 5.64 kB         159 kB
+├ ƒ /trainer/[token]                        17.3 kB         209 kB
+├ ƒ /trainer/[token]/practical              13.4 kB         125 kB
+├ ƒ /trainer/[token]/practical/[studentId]  155 B          87.5 kB
+├ ƒ /trainer/[token]/results                192 B          94.4 kB
+├ ƒ /trainer/[token]/results/[attemptId]    192 B          94.4 kB
+├ ƒ /trainer/dashboard                      192 B          94.4 kB
+├ ƒ /trainer/invite/[token]                 155 B          87.5 kB
+├ ƒ /trainer/sign-in                        3.93 kB         147 kB
+├ ƒ /trial-expired                          4.43 kB         106 kB
+└ ƒ /verify-email                           4.9 kB          155 kB
++ First Load JS shared by all               87.4 kB
+  ├ chunks/2117-930281a1833fc843.js         31.8 kB
+  ├ chunks/fd9d1056-b6ec7bdb3af0cf5a.js     53.6 kB
+  └ other shared chunks (total)             1.97 kB
+
+
+ƒ Middleware                                67.8 kB
+
+ƒ  (Dynamic)  server-rendered on demand
+

@@ -1,19 +1,17 @@
--- Migration 006: Add sitting details columns
--- Adds columns needed for Block 6: session scheduling and sitting type tracking
+-- Migration 006: Add sitting scheduling details
+-- Adds fields for tracking sitting type and session scheduling
 
--- Add new columns to sittings table
 ALTER TABLE sittings
   ADD COLUMN IF NOT EXISTS sitting_type TEXT,
   ADD COLUMN IF NOT EXISTS session_date DATE,
   ADD COLUMN IF NOT EXISTS session_time TEXT;
 
--- Update the status check constraint to include new statuses
-ALTER TABLE sittings
-  DROP CONSTRAINT IF EXISTS sittings_status_check;
+COMMENT ON COLUMN sittings.sitting_type IS 'Course type code (FAW, EFAW, PFA) for quick reference';
+COMMENT ON COLUMN sittings.session_date IS 'Scheduled date for the assessment session';
+COMMENT ON COLUMN sittings.session_time IS 'Scheduled time for the assessment session (e.g., "09:00", "14:00")';
 
+-- Add practical_assessment_id reference (will be populated by practical assessments migration)
 ALTER TABLE sittings
-  ADD CONSTRAINT sittings_status_check
-  CHECK (status IN ('ready', 'scheduled', 'active', 'in_progress', 'completed', 'closed'));
+  ADD COLUMN IF NOT EXISTS practical_assessment_id UUID REFERENCES practical_assessments(id);
 
--- Create index for session_date for better query performance
-CREATE INDEX IF NOT EXISTS idx_sittings_session_date ON sittings(session_date);
+COMMENT ON COLUMN sittings.practical_assessment_id IS 'Reference to practical assessment template (for combined assessments)';
