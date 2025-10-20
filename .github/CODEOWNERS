@@ -1,0 +1,45 @@
+# CODEOWNERS
+# These owners will be requested for review when someone opens a pull request
+# that modifies code in the specified paths.
+#
+# Format: path @github-username
+# You can use teams (@org/team-name) or individuals (@username)
+
+# ==============================================================================
+# Database & Migrations
+# ==============================================================================
+# All database schema changes require careful review to prevent data loss
+# and ensure backward compatibility
+supabase/migrations/** @Markkershaw07
+supabase/schema.sql @Markkershaw07
+
+# ==============================================================================
+# Authentication & Security
+# ==============================================================================
+# Critical security components that control access and permissions
+middleware.ts @Markkershaw07
+lib/supabase/service.ts @Markkershaw07
+lib/actions/auth.ts @Markkershaw07
+
+# ==============================================================================
+# Payments & Subscriptions
+# ==============================================================================
+# Financial code requires extra scrutiny for correctness and security
+lib/stripe.ts @Markkershaw07
+lib/actions/subscriptions.ts @Markkershaw07
+app/api/webhooks/** @Markkershaw07
+
+# ==============================================================================
+# Server Actions
+# ==============================================================================
+# All server actions use service role client and bypass RLS
+# These require careful review to prevent security vulnerabilities
+lib/actions/** @Markkershaw07
+
+# ==============================================================================
+# Configuration & Infrastructure
+# ==============================================================================
+# Workflow and tooling configuration
+.github/** @Markkershaw07
+.coderabbit.yaml @Markkershaw07
+CONTRIBUTING.md @Markkershaw07

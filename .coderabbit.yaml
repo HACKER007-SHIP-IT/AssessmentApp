@@ -1,0 +1,27 @@
+# .coderabbit.yaml
+review:
+  depth: standard           # standard | thorough
+  max_comments: 30
+  focus_areas:
+    - security
+    - correctness
+    - performance
+    - readability
+    - test_quality
+  ignore_paths:
+    - docs/**
+    - "**/*.md"
+standards:
+  language: typescript
+  style_guide: airbnb
+  testing:
+    required: true
+    frameworks: [jest, vitest]
+  coverage:
+    minimum: 80
+merge_blockers:
+  - "uses secret tokens or credentials"
+  - "adds dependency without rationale"
+  - "fails type checks or linting"
+labels:
+  risky: ["auth", "payments", "migrations", "secrets"]
